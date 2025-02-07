@@ -1,18 +1,22 @@
 import { validateSessionToken, setSessionTokenCookie, deleteSessionTokenCookie } from "$lib/server/session";
-import { drizzle } from "drizzle-orm/d1";
-
 import type { Handle } from "@sveltejs/kit";
+import { sequence } from "@sveltejs/kit/hooks";
+import { initDB } from "$lib/server/db";
 
-export const handle: Handle = async ({ event, resolve }) => {
+const handleDbInit: Handle = async ({ event, resolve }) => {
+  initDB(event.platform?.env);
+  return resolve(event);
+};
+
+const handleAuth: Handle = async ({ event, resolve }) => {
   const token = event.cookies.get("session") ?? null;
   if (token === null) {
     event.locals.user = null;
     event.locals.session = null;
     return resolve(event);
   }
-
-  const db = drizzle(event.platform?.env.DB);
-  const { session, user } = await validateSessionToken(db, token);
+  
+  const { session, user } = await validateSessionToken(token);
   if (session !== null) {
     setSessionTokenCookie(event, token, session.expiresAt);
   } else {
@@ -24,3 +28,5 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   return resolve(event);
 };
+
+export const handle = sequence(handleDbInit, handleAuth);

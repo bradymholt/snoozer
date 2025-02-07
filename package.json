@@ -11,16 +11,14 @@
     "db:migrate:local": "drizzle-kit migrate",
     "db:migrate:prod": "wrangler d1 migrations apply DB --remote",
     "logs:prod": "wrangler pages deployment tail",
-    "deploy": "npm run build && npm run db:migrate:prod && wrangler pages deploy"
+    "deploy": "npm run build && npm run db:migrate:prod && wrangler pages deploy && open https://snoozer.geekytidbits.com",
+    "cf-typegen": "wrangler types && mv worker-configuration.d.ts src/"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250204.0",
-    "@libsql/client": "^0.14.0",
-    "@neoconfetti/svelte": "^2.0.0",
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
     "@picocss/pico": "^2.0.6",
-    "@sveltejs/adapter-auto": "^4.0.0",
     "@sveltejs/adapter-cloudflare": "^5.0.2",
     "@sveltejs/kit": "^2.16.0",
     "@sveltejs/vite-plugin-svelte": "^5.0.0",

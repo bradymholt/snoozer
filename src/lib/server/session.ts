@@ -2,13 +2,12 @@ import { eq } from "drizzle-orm";
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
 import type { Cookies, RequestEvent } from "@sveltejs/kit";
-
 import { sessions } from "$lib/server/schema/sessions";
 import { users } from "$lib/server/schema/users";
+import { db } from "$lib/server/db";
 
 import type { Session } from "$lib/server/schema/sessions";
 import type { User } from "$lib/server/schema/users";
-import type { DrizzleD1Database } from "drizzle-orm/d1";
 
 const ONE_DAY_MS = 1000 * 60 * 60 * 24;
 const THIRTY_DAYS_MS = ONE_DAY_MS * 30;
@@ -22,7 +21,7 @@ export function generateSessionToken(): string {
   return token;
 }
 
-export async function createSession(db: DrizzleD1Database, token: string, userId: number): Promise<Session> {
+export async function createSession(token: string, userId: number): Promise<Session> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session: Session = {
     id: sessionId,
@@ -33,7 +32,7 @@ export async function createSession(db: DrizzleD1Database, token: string, userId
   return session;
 }
 
-export async function validateSessionToken(db: DrizzleD1Database, token: string): Promise<SessionValidationResult> {
+export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const result = await db
     .select({ user: users, session: sessions })
@@ -61,7 +60,7 @@ export async function validateSessionToken(db: DrizzleD1Database, token: string)
   return { session, user };
 }
 
-export async function invalidateSession(db: DrizzleD1Database, sessionId: string): Promise<void> {
+export async function invalidateSession(sessionId: string): Promise<void> {
   await db.delete(sessions).where(eq(sessions.id, sessionId));
 }
 

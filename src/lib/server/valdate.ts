@@ -1,6 +1,6 @@
 import z from "zod";
 
-export default async function validate(createValidator: z.Schema, updateValidator: z.Schema, request: Request) {
+export default async function validate(modelValidator: z.Schema, request: Request) {
   const formData = await request.formData();
   const data: Record<string, unknown> = Object.fromEntries(formData.entries());
 
@@ -16,8 +16,7 @@ export default async function validate(createValidator: z.Schema, updateValidato
     }
   }
 
-  let schemaValidator = data.id ? updateValidator : createValidator;
-  const parsed = schemaValidator.safeParse(data);
+  const parsed = modelValidator.safeParse(data);
 
   const result = {
     ...parsed,

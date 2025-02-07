@@ -1,5 +1,6 @@
 <script>
 	let { contact, open, closeModal } = $props();
+	const name = $derived(contact?.last_name ? `${contact.last_name}, ${contact.first_name}` : contact?.first_name);
 </script>
 
 <dialog {open}>
@@ -9,7 +10,7 @@
 			<h2>Confirm Delete</h2>
 		</header>
 		<p>
-			Are you sure you want to delete <strong>{contact?.last_name}, {contact?.first_name}</strong>?
+			Are you sure you want to dlete <strong>{name}</strong>?
 		</p>
 		<form id="deleteForm" method="POST" action="?/deleteContact">
 			<input type="hidden" name="id" value={contact?.id} />

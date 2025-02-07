@@ -1,6 +1,5 @@
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
-import z from "zod";
+import { createInsertSchema } from "drizzle-zod";
 
 export const contacts = sqliteTable("contacts", {
   id: int().primaryKey({ autoIncrement: true }),
@@ -12,10 +11,8 @@ export const contacts = sqliteTable("contacts", {
   notes: text(),
 });
 
-export const contactInsertValidator = createInsertSchema(contacts, {
+export const contactValidator = createInsertSchema(contacts, {
   first_name: (schema) => schema.min(1, "required"),
   email: (schema) => schema.email().optional(),
   birthday: (schema) => schema.date().optional(),
 });
-
-export const contactUpdateValidator: z.Schema = createUpdateSchema(contacts);

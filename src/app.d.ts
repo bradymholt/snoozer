@@ -9,12 +9,7 @@ declare global {
       session: Session | null;
     }
     interface Platform {
-      env: {
-        DB: D1Database;
-        GOOGLE_CLIENT_ID: string;
-        GOOGLE_CLIENT_SECRET: string;
-        GOOGLE_REDIRECT_URI: string;
-      };
+      env: Env;
       cf: CfProperties;
       ctx: ExecutionContext;
     }
