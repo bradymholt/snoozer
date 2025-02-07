@@ -1,0 +1,41 @@
+{
+  "name": "snoozer",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "npm run build && wrangler pages dev",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "drizzle-kit migrate",
+    "db:migrate:prod": "wrangler d1 migrations apply DB --remote",
+    "logs:prod": "wrangler pages deployment tail",
+    "deploy": "npm run build && npm run db:migrate:prod && wrangler pages deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250204.0",
+    "@libsql/client": "^0.14.0",
+    "@neoconfetti/svelte": "^2.0.0",
+    "@oslojs/crypto": "^1.0.1",
+    "@oslojs/encoding": "^1.1.0",
+    "@picocss/pico": "^2.0.6",
+    "@sveltejs/adapter-auto": "^4.0.0",
+    "@sveltejs/adapter-cloudflare": "^5.0.2",
+    "@sveltejs/kit": "^2.16.0",
+    "@sveltejs/vite-plugin-svelte": "^5.0.0",
+    "arctic": "^3.2.2",
+    "autoprefixer": "^10.4.20",
+    "drizzle-kit": "^0.30.4",
+    "drizzle-orm": "^0.39.1",
+    "drizzle-zod": "^0.7.0",
+    "prettier": "^3.4.2",
+    "prettier-plugin-svelte": "^3.3.3",
+    "svelte": "^5.0.0",
+    "svelte-check": "^4.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.0",
+    "wrangler": "^3.107.3"
+  }
+}
