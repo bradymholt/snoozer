@@ -2,4 +2,4 @@
 
 A contact manager event appearance support
 
-![2025_02_13T20 50 01Z](https://github.com/user-attachments/assets/ebdd370d-35ef-4b90-abef-ae6cde6c73b9)
+![2025_02_13T22 23 59Z](https://github.com/user-attachments/assets/da461ba7-6f77-4837-8982-7d7c804ef768)
