@@ -8,6 +8,41 @@
       "when": 1738960357442,
       "tag": "0000_overconfident_menace",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1739050963913,
+      "tag": "0001_exotic_tinkerer",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1739051188908,
+      "tag": "0002_lumpy_ravenous",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1739060737013,
+      "tag": "0003_green_ink",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1739061667064,
+      "tag": "0004_bouncy_miss_america",
+      "breakpoints": true
+    },  
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1739317568544,
+      "tag": "0006_fine_night_nurse",
+      "breakpoints": true
     }
   ]
 }

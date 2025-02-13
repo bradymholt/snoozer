@@ -1,7 +1,7 @@
 <script>
   import { enhance, applyAction } from "$app/forms";
   import { invalidateAll } from "$app/navigation";
-  let { contact, form, open, closeModal } = $props();
+  let { contact, form, open, deleteContact, closeModal } = $props();
   let firstNameInput = $state();
   let dialog = $state();
 
@@ -48,7 +48,7 @@
             type="text"
             autocomplete="off"
             name="first_name"
-            value={contact?.first_name}
+            value={contact?.first_name ?? ""}
             aria-invalid={!!form?.errors?.first_name ? true : undefined}
             bind:this={firstNameInput}
             data-1p-ignore
@@ -62,7 +62,7 @@
           <input
             type="text"
             name="last_name"
-            value={contact?.last_name}
+            value={contact?.last_name ?? ""}
             aria-invalid={!!form?.errors?.last_name ? true : undefined}
           />
           {#if form?.errors?.last_name}
@@ -76,7 +76,7 @@
           <input
             type="text"
             name="email"
-            value={contact?.email}
+            value={contact?.email ?? ""}
             aria-invalid={!!form?.errors?.email ? true : undefined}
           />
           {#if form?.errors?.email}
@@ -89,7 +89,7 @@
             type="text"
             name="phone"
             placeholder="555-555-5555"
-            value={contact?.phone}
+            value={contact?.phone ?? ""}
             aria-invalid={!!form?.errors?.phone ? true : undefined}
           />
         </label>
@@ -98,7 +98,7 @@
           <input
             type="date"
             name="birthday"
-            value={contact?.birthday}
+            value={contact?.birthday ?? ""}
             aria-invalid={!!form?.errors?.birthday ? true : undefined}
           />
         </label>
@@ -106,14 +106,28 @@
       <fieldset>
         <label for="notes"
           >Notes
-          <textarea name="notes" rows="15">{contact?.notes}</textarea>
+          <textarea name="notes" rows="15">{contact?.notes ?? ""}</textarea>
         </label>
-      </fieldset>      
-      <input type="hidden" name="id" value={contact?.id} />
+      </fieldset>
+      <input type="hidden" name="id" value={contact?.id ?? ""} />
     </form>
     <footer>
-      <button onclick={closeModal} class="secondary"> Cancel </button>
-      <button type="submit" form="contactForm">Save</button>
+      <div>
+        {#if contact}
+          <button onclick={deleteContact} class="danger">Delete</button>
+        {/if}
+      </div>
+      <div>
+        <button onclick={closeModal} class="secondary"> Cancel </button>
+        <button type="submit" form="contactForm">Save</button>
+      </div>
     </footer>
   </article>
 </dialog>
+
+<style>
+  footer {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>

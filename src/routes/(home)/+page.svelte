@@ -2,7 +2,7 @@
   import type { PageProps } from "./$types";
   let { data, form }: PageProps = $props();
   import edit from "$lib/images/edit.svg";
-  import trashcan from "$lib/images/trashcan.svg";
+
   import ContactModal from "./ContactModal.svelte";
   import ConfirmDeleteModal from "./ConfirmDeleteModal.svelte";
 
@@ -25,7 +25,9 @@
   let showDeleteModal = $state(false);
 
   function addContact() {
-    editContact(null);
+    form = null;
+    currentActionContactId = null;
+    showContactModal = true;
   }
 
   function editContact(id: number | null) {
@@ -34,8 +36,8 @@
     showContactModal = true;
   }
 
-  function deleteContact(id: number) {
-    currentActionContactId = id;
+  function deleteContact(id: number) {    
+    showContactModal = false;
     showDeleteModal = true;
   }
 
@@ -49,61 +51,47 @@
   }
 </script>
 
-<svelte:head>
-  <title>Snoozer</title>
-  <meta name="description" content="Snoozer" />
-</svelte:head>
-
-<header class="container">
-  <nav>
+<main class="container">
+  <nav class="tabs">
     <ul>
-      <li><h1>Snoozer</h1></li>
-    </ul>
-    <ul>
-      <li>
-        <form method="POST" action="?/logout">
-          <button type="submit" role="link">Logout</button>
-        </form>
-      </li>
+      <li class="active">Contacts</li>
+      <li><a href="/events">Events</a></li>
     </ul>
   </nav>
-</header>
-<main class="container">
-  <table class="striped">
-    <thead>
-      <tr>
-        <th><button class="sort-link" role="link" onclick={() => sort("first_name")}>First</button></th>
-        <th><button class="sort-link" role="link" onclick={() => sort("last_name")}>Last</button></th>
-				<th><button class="sort-link" role="link" onclick={() => sort("email")}>Email</button></th>
-				<th><button class="sort-link" role="link" onclick={() => sort("phone")}>Phone</button></th>
-        <th class="actions-column">
-          <button onclick={() => addContact()}>Add New</button>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each sortedContacts as contact}
+  {#if data.contacts.length}
+    <table class="striped">
+      <thead>
         <tr>
-          <td>{contact.first_name}</td>
-          <td>{contact.last_name}</td>
-					<td>{contact.email}</td>
-					<td>{contact.phone}</td>
-          <td class="actions-column">
-            <input type="hidden" name="id" value={contact.id} />
-            <button class="edit-button" data-tooltip="Edit" role="link" onclick={() => editContact(contact.id)}>
-              <img class="img-edit" src={edit} alt="Edit" />
-            </button>
-            <button class="delete-button" data-tooltip="Delete" role="link" onclick={() => deleteContact(contact.id)}>
-              <img class="img-delete" src={trashcan} alt="Delete" />
-            </button>
-          </td>
+          <th><button class="sort-link" role="link" onclick={() => sort("first_name")}>First</button></th>
+          <th><button class="sort-link" role="link" onclick={() => sort("last_name")}>Last</button></th>
+          <th><button class="sort-link" role="link" onclick={() => sort("email")}>Email</button></th>
+          <th><button class="sort-link" role="link" onclick={() => sort("phone")}>Phone</button></th>
+          <th class="actions-column">
+            <button onclick={() => addContact()}>Add New</button>
+          </th>
         </tr>
-      {/each}
-    </tbody>
-  </table>
-  {#if data.contacts.length === 0}
+      </thead>
+      <tbody>
+        {#each sortedContacts as contact}
+          <tr>
+            <td>{contact.first_name}</td>
+            <td>{contact.last_name}</td>
+            <td>{contact.email}</td>
+            <td>{contact.phone}</td>
+            <td class="actions-column">
+              <input type="hidden" name="id" value={contact.id} />
+              <button class="edit-button" title="Edit" role="link" onclick={() => editContact(contact.id)}>
+                <img src={edit} alt="Edit" />
+              </button>          
+            </td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  {:else}
     <div class="no-contacts-placeholder">
       <p>No Contacts</p>
+      <button onclick={() => addContact()}>Add New</button>
     </div>
   {/if}
 </main>
@@ -112,6 +100,7 @@
   {form}
   contact={currentActionContact}
   open={showContactModal}
+  deleteContact={deleteContact}
   closeModal={() => {
     showContactModal = false;
   }}
@@ -126,25 +115,13 @@
 />
 
 <style>
-  .actions-column {
-    text-align: right;
-  }
-
-  td.actions-column button {
-    visibility: hidden;
-		padding: 5px
-  }
-
-  tr:hover .actions-column button {
-    visibility: visible;
-  }
-
   .no-contacts-placeholder {
     font-size: 1.5rem;
     height: 20vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
   }
 
   .sort-link {

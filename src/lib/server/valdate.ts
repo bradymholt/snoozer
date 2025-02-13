@@ -1,8 +1,19 @@
 import z from "zod";
 
-export default async function validate(modelValidator: z.Schema, request: Request) {
+export async function extract(request: Request) {
   const formData = await request.formData();
   const data: Record<string, unknown> = Object.fromEntries(formData.entries());
+
+  // Get all array keys
+  const uniqueArrayKeys = new Set(Array.from(formData.keys()).filter((key) => key.endsWith("[]")));
+  for (const key of uniqueArrayKeys) {
+    const values = formData.getAll(key);
+    const arrayKeyName = key.replace(/\[\]$/, "");
+    data[arrayKeyName] ??= [];
+    if (Array.isArray(data[arrayKeyName])) {
+      data[arrayKeyName].push(...values);
+    }
+  }
 
   // If id is present convert it to a number
   if (data.id) {
@@ -16,7 +27,11 @@ export default async function validate(modelValidator: z.Schema, request: Reques
     }
   }
 
-  const parsed = modelValidator.safeParse(data);
+  return data;
+}
+
+export async function validate(modelValidator: z.Schema, extracted: Record<string, unknown>) {
+  const parsed = modelValidator.safeParse(extracted);
 
   const result = {
     ...parsed,
@@ -24,4 +39,10 @@ export default async function validate(modelValidator: z.Schema, request: Reques
   };
 
   return result;
+}
+
+export async function extractAndValidate(modelValidator: z.Schema, request: Request) {
+  const extracted = await extract(request);
+  const validated = await validate(modelValidator, extracted);
+  return validated;
 }

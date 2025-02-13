@@ -72,10 +72,46 @@ button[role="link"] {
 }
 
 button[type="submit"] {
-  width: auto;
+  width: initial;
+}
+
+button.danger {
+  background-color: #F06048;
 }
 
 dialog article > header .close,
 dialog article > header :is(a, button)[rel="prev"] {
   font-size: 2rem;
+}
+
+nav.tabs {
+  border-bottom: 1px solid #dee2e6;
+}
+
+nav.tabs li {
+  padding: 10px;
+  margin-bottom: -1px;
+  background: 0 0;
+  border: 1px solid transparent;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+
+nav.tabs li.active {
+  color: #495057;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.actions-column {
+  text-align: right;
+}
+
+td.actions-column button {
+  visibility: hidden;
+  padding: 5px;
+}
+
+tr:hover .actions-column button {
+  visibility: visible;
 }

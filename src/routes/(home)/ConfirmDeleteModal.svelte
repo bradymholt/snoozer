@@ -10,14 +10,14 @@
 			<h2>Confirm Delete</h2>
 		</header>
 		<p>
-			Are you sure you want to dlete <strong>{name}</strong>?
+			Are you sure you want to delete <strong>{name}</strong>?
 		</p>
 		<form id="deleteForm" method="POST" action="?/deleteContact">
 			<input type="hidden" name="id" value={contact?.id} />
 		</form>
 		<footer>
 			<button onclick={closeModal} class="secondary"> Cancel </button>
-			<button type="submit" form="deleteForm">Delete</button>
+			<button type="submit" class="danger" form="deleteForm">Delete</button>
 		</footer>
 	</article>
 </dialog>

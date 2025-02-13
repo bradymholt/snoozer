@@ -1,0 +1,1 @@
+ALTER TABLE `touches` RENAME COLUMN "notes" TO "description";
