@@ -1,0 +1,3 @@
+GOOGLE_CLIENT_ID="abc123.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="xyz123"
+GOOGLE_REDIRECT_URI="http://localhost:5173/login/google/callback"
