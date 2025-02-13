@@ -36,12 +36,19 @@
       "when": 1739061667064,
       "tag": "0004_bouncy_miss_america",
       "breakpoints": true
-    },  
+    },
     {
       "idx": 6,
       "version": "6",
       "when": 1739317568544,
       "tag": "0006_fine_night_nurse",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1739479656565,
+      "tag": "0007_sudden_spiral",
       "breakpoints": true
     }
   ]

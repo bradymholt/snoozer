@@ -1,3 +1,3 @@
 # Snoozer
 
-A contact manager with the a contact queue
+A contact manager event appearance support

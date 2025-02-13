@@ -63,6 +63,8 @@
         </label>
       </fieldset>
       <fieldset>
+        <label for="description">
+          Appearances
         <select aria-label="Select contacts..." name="contacts[]" multiple size="6">
           <option disabled> Select contacts (cmd/shift click for multi-select)...</option>
           {#each contacts as contact}
@@ -71,6 +73,7 @@
             >
           {/each}
         </select>
+      </label>
       </fieldset>
       <input type="hidden" name="id" value={event?.id ?? ""} />
     </form>

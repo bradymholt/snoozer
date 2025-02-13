@@ -7,7 +7,7 @@ export const appearances = sqliteTable(
   "appearances",
   {
     eventId: int().references(() => events.id, { onDelete: "cascade" }),
-    contactId: int().references(() => contacts.id),
+    contactId: int().references(() => contacts.id, { onDelete: "cascade" }),
   },
   (t) => [primaryKey({ columns: [t.eventId, t.contactId] })]
 );
