@@ -16,7 +16,7 @@ export type IGoogleOAuthConfig = {
 
 export async function handleOAuthCallBack(
   posted: IGoogleOAuthCallbackParams,
-  googleConfig: IGoogleOAuthConfig
+  googleConfig: IGoogleOAuthConfig,
 ): Promise<{ googleId: string; name: string; email: string } | null> {
   if (
     posted?.code === null ||
@@ -32,8 +32,15 @@ export async function handleOAuthCallBack(
 
   let tokens: OAuth2Tokens;
   try {
-    const google = new Google(googleConfig.clientId, googleConfig.clientSecret, googleConfig.redirectUri);
-    tokens = await google.validateAuthorizationCode(posted.code, posted.codeVerifier);
+    const google = new Google(
+      googleConfig.clientId,
+      googleConfig.clientSecret,
+      googleConfig.redirectUri,
+    );
+    tokens = await google.validateAuthorizationCode(
+      posted.code,
+      posted.codeVerifier,
+    );
   } catch (e) {
     // Invalid code or client credentials
     return null;

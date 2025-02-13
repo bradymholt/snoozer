@@ -1,4 +1,8 @@
-import { validateSessionToken, setSessionTokenCookie, deleteSessionTokenCookie } from "$lib/server/session";
+import {
+  validateSessionToken,
+  setSessionTokenCookie,
+  deleteSessionTokenCookie,
+} from "$lib/server/session";
 import type { Handle, HandleServerError } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 import { initDB } from "$lib/server/db";
@@ -31,7 +35,12 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 
 export const handle = sequence(handleDbInit, handleAuth);
 
-export const handleError: HandleServerError = async ({ error, event, status, message }) => {
+export const handleError: HandleServerError = async ({
+  error,
+  event,
+  status,
+  message,
+}) => {
   const err = error instanceof Error ? error : new Error(String(error));
 
   console.error("Unhandled error:", {

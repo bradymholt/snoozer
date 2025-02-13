@@ -28,12 +28,8 @@
           "name": "appearances_eventId_events_id_fk",
           "tableFrom": "appearances",
           "tableTo": "events",
-          "columnsFrom": [
-            "eventId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["eventId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -41,22 +37,15 @@
           "name": "appearances_contactId_contacts_id_fk",
           "tableFrom": "appearances",
           "tableTo": "contacts",
-          "columnsFrom": [
-            "contactId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contactId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
         "appearances_eventId_contactId_pk": {
-          "columns": [
-            "eventId",
-            "contactId"
-          ],
+          "columns": ["eventId", "contactId"],
           "name": "appearances_eventId_contactId_pk"
         }
       },
@@ -184,12 +173,8 @@
           "name": "session_user_id_users_id_fk",
           "tableFrom": "session",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -233,9 +218,7 @@
       "indexes": {
         "users_email_unique": {
           "name": "users_email_unique",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true
         }
       },

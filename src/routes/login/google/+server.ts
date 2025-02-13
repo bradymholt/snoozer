@@ -9,10 +9,14 @@ export async function GET(event: RequestEvent): Promise<Response> {
   const google = new Google(
     event.platform?.env.GOOGLE_CLIENT_ID!,
     event.platform?.env.GOOGLE_CLIENT_SECRET!,
-    event.platform?.env.GOOGLE_REDIRECT_URI!
+    event.platform?.env.GOOGLE_REDIRECT_URI!,
   );
 
-  const url = google.createAuthorizationURL(state, codeVerifier, ["openid", "profile", "email"]);
+  const url = google.createAuthorizationURL(state, codeVerifier, [
+    "openid",
+    "profile",
+    "email",
+  ]);
 
   event.cookies.set("google_oauth_state", state, {
     path: "/",

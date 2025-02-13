@@ -1,5 +1,8 @@
 import { eq } from "drizzle-orm";
-import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
+import {
+  encodeBase32LowerCaseNoPadding,
+  encodeHexLowerCase,
+} from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
 import type { Cookies, RequestEvent } from "@sveltejs/kit";
 import { sessions } from "$lib/server/schema/sessions";
@@ -21,7 +24,10 @@ export function generateSessionToken(): string {
   return token;
 }
 
-export async function createSession(token: string, userId: number): Promise<Session> {
+export async function createSession(
+  token: string,
+  userId: number,
+): Promise<Session> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session: Session = {
     id: sessionId,
@@ -32,7 +38,9 @@ export async function createSession(token: string, userId: number): Promise<Sess
   return session;
 }
 
-export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
+export async function validateSessionToken(
+  token: string,
+): Promise<SessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const result = await db
     .select({ user: users, session: sessions })
@@ -64,7 +72,11 @@ export async function invalidateSession(sessionId: string): Promise<void> {
   await db.delete(sessions).where(eq(sessions.id, sessionId));
 }
 
-export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: Date): void {
+export function setSessionTokenCookie(
+  event: RequestEvent,
+  token: string,
+  expiresAt: Date,
+): void {
   event.cookies.set("session", token, {
     httpOnly: true,
     sameSite: "lax",
@@ -83,4 +95,6 @@ export function deleteSessionTokenCookie(cookies: Cookies): void {
   });
 }
 
-export type SessionValidationResult = { session: Session; user: User } | { session: null; user: null };
+export type SessionValidationResult =
+  | { session: Session; user: User }
+  | { session: null; user: null };

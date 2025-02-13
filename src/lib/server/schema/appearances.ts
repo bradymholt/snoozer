@@ -9,7 +9,7 @@ export const appearances = sqliteTable(
     eventId: int().references(() => events.id, { onDelete: "cascade" }),
     contactId: int().references(() => contacts.id, { onDelete: "cascade" }),
   },
-  (t) => [primaryKey({ columns: [t.eventId, t.contactId] })]
+  (t) => [primaryKey({ columns: [t.eventId, t.contactId] })],
 );
 
 export type Appearance = InferSelectModel<typeof appearances>;

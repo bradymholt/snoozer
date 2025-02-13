@@ -18,7 +18,7 @@ export const eventValidator = createInsertSchema(events, {
 export const getEventAppearancesByContact = async (
   db: DrizzleD1Database,
   events: Array<Event>,
-  eventAppearances: Array<Appearance>
+  eventAppearances: Array<Appearance>,
 ) => {
   const allContacts = await db.select().from(contacts);
 
@@ -28,7 +28,9 @@ export const getEventAppearancesByContact = async (
   for (const c of allContacts) {
     contactEventMap.set(
       c.id,
-      eventAppearances.filter((a) => a.contactId === c.id).map((a) => a.eventId)
+      eventAppearances
+        .filter((a) => a.contactId === c.id)
+        .map((a) => a.eventId),
     );
   }
 

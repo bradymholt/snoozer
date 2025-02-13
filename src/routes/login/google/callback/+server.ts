@@ -1,8 +1,12 @@
-import { generateSessionToken, createSession, setSessionTokenCookie } from "$lib/server/session";
+import {
+  generateSessionToken,
+  createSession,
+  setSessionTokenCookie,
+} from "$lib/server/session";
 import { drizzle } from "drizzle-orm/d1";
 import { users } from "$lib/server/schema/users";
 import { eq } from "drizzle-orm";
-import { handleOAuthCallBack } from  "$lib/server/googleOAuth";
+import { handleOAuthCallBack } from "$lib/server/googleOAuth";
 import type { RequestEvent } from "@sveltejs/kit";
 
 export async function GET(event: RequestEvent): Promise<Response> {
@@ -21,7 +25,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
       clientId: event.platform?.env.GOOGLE_CLIENT_ID!,
       clientSecret: event.platform?.env.GOOGLE_CLIENT_SECRET!,
       redirectUri: event.platform?.env.GOOGLE_REDIRECT_URI!,
-    }
+    },
   );
 
   if (!googleAuth) {
@@ -31,11 +35,17 @@ export async function GET(event: RequestEvent): Promise<Response> {
   }
 
   const db = drizzle(event.platform?.env.DB);
-  const [existingUser] = await db.select().from(users).where(eq(users.googleId, googleAuth.googleId));
+  const [existingUser] = await db
+    .select()
+    .from(users)
+    .where(eq(users.googleId, googleAuth.googleId));
 
   if (existingUser !== undefined) {
     // Existing user
-    await db.update(users).set({ name: googleAuth.name, email: googleAuth.email }).where(eq(users.id, existingUser.id));
+    await db
+      .update(users)
+      .set({ name: googleAuth.name, email: googleAuth.email })
+      .where(eq(users.id, existingUser.id));
 
     const sessionToken = generateSessionToken();
     const session = await createSession(sessionToken, existingUser.id);
@@ -44,7 +54,11 @@ export async function GET(event: RequestEvent): Promise<Response> {
     // New user
     const [{ insertedId }] = await db
       .insert(users)
-      .values({ name: googleAuth.name, email: googleAuth.email, googleId: googleAuth.googleId })
+      .values({
+        name: googleAuth.name,
+        email: googleAuth.email,
+        googleId: googleAuth.googleId,
+      })
       .returning({ insertedId: users.id });
 
     const sessionToken = generateSessionToken();
